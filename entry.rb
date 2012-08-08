@@ -18,16 +18,9 @@ Twitter.configure {|twitter_config|
   twitter_config.oauth_token_secret = config["twitter"]["oauth_token_secret"]
 }
 
-3.times do
-  begin
-    bot = TwitterBot::Crawler.new(config["accaunt"]["bot_screen_name"])
-    config["accaunt"]["src_screen_names"].each do |screen_name|
-      bot.study(screen_name)
-    end
-    # bot.reply_to_mentions unless ARGV.include?("-no-reply")
-    bot.tweet unless ARGV.include?("-no-tweet")
-    break
-  rescue Exception => e
-    puts e
-  end
+bot = TwitterBot::Crawler.new(config["accaunt"]["bot_screen_name"])
+config["accaunt"]["src_screen_names"].each do |screen_name|
+  bot.study(screen_name)
 end
+# bot.reply_to_mentions unless ARGV.include?("-no-reply")
+bot.tweet unless ARGV.include?("-no-tweet")
