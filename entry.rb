@@ -1,15 +1,10 @@
 #coding: utf-8
 
 require 'json'
-
 $:.unshift(File.dirname(__FILE__) + "/lib")
 require 'twitterbot'
 
-begin
-  config = JSON.load( open("config/config.json") )
-rescue
-  
-end
+config = JSON.load( open("config/config.json") )
 
 Twitter.configure {|twitter_config|
   twitter_config.consumer_key       = config["twitter"]["consumer_key"]
