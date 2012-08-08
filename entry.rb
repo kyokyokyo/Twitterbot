@@ -20,7 +20,7 @@ Twitter.configure {|twitter_config|
 
 3.times do
   begin
-    bot = TwitterBot::Crawler.new('hazi_bot', 'hazi')
+    bot = TwitterBot::Crawler.new(config["accaunt"]["bot_screen_name"])
     config["accaunt"]["src_screen_names"].each do |screen_name|
       bot.study(screen_name)
     end
