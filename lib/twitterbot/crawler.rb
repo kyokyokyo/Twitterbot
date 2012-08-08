@@ -9,9 +9,8 @@ require 'twitterbot/core_ext/string'
 
 module TwitterBot
   class Crawler
-    def initialize(bot_screen_name, src_screen_name)
+    def initialize(bot_screen_name)
       @bot_screen_name = bot_screen_name
-      @src_screen_name = src_screen_name
       @replied_users = Array.new
       @markov = Markov.new
       @markov_mention = Markov.new
@@ -31,18 +30,6 @@ module TwitterBot
       }
     end
 
-    def get_favorited_tweets
-      response = http_query('get', "http://favstar.fm/users/#{@src_screen_name}/recent", {})
-      matches = response.body.scan(/<div class="theTweet">([^<]+)<\/div>/m)
-      matches.flatten.map {|match| match.gsub(/<br\s?\/?>/, "\n") }
-    end
-
-    def get_best_tweets
-      response = http_query('get', "http://favstar.fm/users/#{@src_screen_name}", {})
-      matches = response.body.scan(/<div class="theTweet">([^<]+)<\/div>/m)
-      matches.flatten.map {|match| match.gsub(/<br\s?\/?>/, "\n") }
-    end
-
     def build_tweet()
       10.times do
         result = @markov.build.join('')
@@ -59,7 +46,7 @@ module TwitterBot
       raise StandardError.new('retly limit is exceeded')
     end
 
-    def study ( screen_name=@src_screen_name )
+    def study (screen_name)
       Twitter.user_timeline(screen_name, {
         "count" => 200,
       }).each {|status|
@@ -70,7 +57,6 @@ module TwitterBot
         else
           @markov.study(splited)
         end
-        #puts "study: #{removed}"
       }
     end
 
@@ -97,7 +83,7 @@ module TwitterBot
 
     def tweet
       result = build_tweet
-      #Twitter.update(result)
+      Twitter.update(result)
       puts "tweet(markov): #{result}"
     end
   end
