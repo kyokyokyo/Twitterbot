@@ -1,0 +1,13 @@
+{
+  // Twitter 認証情報。oauth_tokenはBotアカウント
+  "twitter": {
+    "consumer_key"       : "",
+    "consumer_secret"    : "",
+    "oauth_token"        : "",
+    "oauth_token_secret" : ""
+  },
+  "accaunt": {
+    "bot_screen_name"  : "", // Botアカウント
+    "src_screen_names" : ["", ""] // 参照元となるユーザID（複数指定可）
+  }
+}
